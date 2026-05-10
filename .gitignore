@@ -1,0 +1,20 @@
+# Compiled Java
+*.class
+out/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.project
+*.classpath
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Credentials (never commit these)
+*.env
+
+# Word documents (binary, tracked separately if needed)
+*.docx
