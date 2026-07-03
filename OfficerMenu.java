@@ -14,7 +14,6 @@ public class OfficerMenu {
             System.out.println("2. View Vehicle History");
             System.out.println("3. Check Blacklist");
             System.out.println("4. View All Active Violations");
-            System.out.println("5. Run Custom SQL");
             System.out.println("0. Logout");
             System.out.print("Choice: ");
 
@@ -24,7 +23,6 @@ public class OfficerMenu {
                 case 2 -> viewVehicleHistory();
                 case 3 -> checkBlacklist();
                 case 4 -> viewActiveViolations();
-                case 5 -> runCustomSQL();
                 case 0 -> { return; }
                 default -> System.out.println("Invalid option.");
             }
@@ -133,37 +131,5 @@ public class OfficerMenu {
                     rs.getString("FineStatus"));
             }
         } catch (Exception e) { System.err.println("Error: " + e.getMessage()); }
-    }
-
-    // -- Custom SQL ------------------------------------------------------------
-
-    private void runCustomSQL() {
-        System.out.println("\nEnter your SELECT query:");
-        System.out.print("SQL> ");
-        String sql = sc.nextLine().trim();
-        if (sql.isEmpty()) { System.out.println("No query entered."); return; }
-        if (!sql.trim().toUpperCase().startsWith("SELECT")) {
-            System.out.println("[DENIED] Officer role allows SELECT queries only.");
-            return;
-        }
-        try (Connection conn = DBConnection.getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            ResultSetMetaData meta = rs.getMetaData();
-            int cols = meta.getColumnCount();
-            System.out.println();
-            for (int i = 1; i <= cols; i++)
-                System.out.printf("%-20s", meta.getColumnName(i));
-            System.out.println("\n" + "-".repeat(20 * cols));
-            int rowCount = 0;
-            while (rs.next()) {
-                for (int i = 1; i <= cols; i++)
-                    System.out.printf("%-20s",
-                        rs.getString(i) != null ? rs.getString(i) : "NULL");
-                System.out.println();
-                rowCount++;
-            }
-            System.out.println("\n[" + rowCount + " row(s) returned]");
-        } catch (Exception e) { System.err.println("SQL Error: " + e.getMessage()); }
     }
 }

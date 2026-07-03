@@ -119,7 +119,7 @@ java  -cp "out:postgresql-42.7.9.jar" sumis.Main
 | finance1  | finance123  | Finance |
 | analyst1  | analyst123  | Analyst |
 
-> **Note:** Passwords are stored as SHA-256 hashes in the database. The seed file stores hashed values. `AuthManager.java` hashes input on login automatically.
+> **Note:** Passwords are stored salted — `salt:sha256(salt+password)` — in the database. The seed file stores pre-hashed values. `AuthManager.java` generates the salt and hashes input on login/user-creation automatically.
 
 ---
 
@@ -210,6 +210,8 @@ java  -cp "out:postgresql-42.7.9.jar" sumis.Main
 | 3 | Vehicle Risk Scores |
 | 4 | Congestion Trends (last 7 days) |
 | 5 | Anomaly Detection (vehicles with 2x above-average violations) |
+
+> **Note:** Only Admin has a "Run Custom SQL" option. It was previously exposed to all roles, but any authenticated user could run `SELECT * FROM UserAccount` and read every password hash — a direct RBAC bypass. It's now Admin-only, matching the access-control model described below.
 
 ---
 

@@ -15,7 +15,6 @@ public class AnalystMenu {
             System.out.println("3. Vehicle Risk Scores");
             System.out.println("4. Congestion Trends (Last 7 Days)");
             System.out.println("5. Anomaly Detection - High Risk Vehicles");
-            System.out.println("6. Run Custom SQL");
             System.out.println("0. Logout");
             System.out.print("Choice: ");
 
@@ -26,7 +25,6 @@ public class AnalystMenu {
                 case 3  -> vehicleRiskScores();
                 case 4  -> congestionTrends();
                 case 5  -> anomalyDetection();
-                case 6  -> runCustomSQL();
                 case 0  -> { return; }
                 default -> System.out.println("Invalid option.");
             }
@@ -125,37 +123,5 @@ public class AnalystMenu {
             }
             if (!found) System.out.println("No anomalous vehicles detected.");
         } catch (Exception e) { System.err.println("Error: " + e.getMessage()); }
-    }
-
-    // -- Custom SQL ------------------------------------------------------------
-
-    private void runCustomSQL() {
-        System.out.println("\nEnter your SELECT query:");
-        System.out.print("SQL> ");
-        String sql = sc.nextLine().trim();
-        if (sql.isEmpty()) { System.out.println("No query entered."); return; }
-        if (!sql.trim().toUpperCase().startsWith("SELECT")) {
-            System.out.println("[DENIED] Analyst role allows SELECT queries only.");
-            return;
-        }
-        try (Connection conn = DBConnection.getConnection();
-             Statement st = conn.createStatement();
-             ResultSet rs = st.executeQuery(sql)) {
-            ResultSetMetaData meta = rs.getMetaData();
-            int cols = meta.getColumnCount();
-            System.out.println();
-            for (int i = 1; i <= cols; i++)
-                System.out.printf("%-20s", meta.getColumnName(i));
-            System.out.println("\n" + "-".repeat(20 * cols));
-            int rowCount = 0;
-            while (rs.next()) {
-                for (int i = 1; i <= cols; i++)
-                    System.out.printf("%-20s",
-                        rs.getString(i) != null ? rs.getString(i) : "NULL");
-                System.out.println();
-                rowCount++;
-            }
-            System.out.println("\n[" + rowCount + " row(s) returned]");
-        } catch (Exception e) { System.err.println("SQL Error: " + e.getMessage()); }
     }
 }

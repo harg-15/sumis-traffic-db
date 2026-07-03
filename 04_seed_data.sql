@@ -429,11 +429,11 @@ INSERT INTO Congestion_Log (RoadID, Timestamp, VehicleCount, CongestionLevel) VA
 -- ========================
 -- UserAccounts
 -- ========================
--- Passwords are SHA-256 hashed. Plaintext: admin123 / officer123 / finance123 / analyst123
+-- Password format: '<salt>:<sha256(salt+plaintext)>'. Plaintext: admin123 / officer123 / finance123 / analyst123
 INSERT INTO UserAccount (Username, Password, Role) VALUES
-    ('admin',    '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'Admin'),
-    ('officer1', '118b8d35a17bcf2c7d2d790509e12308dc6332c5d234f0098d2d6be6700bebb1', 'Officer'),
-    ('finance1', '48f7312924d74358e75294e3b3613f2319d99e944184b69550f528577ca082fb', 'Finance'),
-    ('analyst1', '20249749412d73a3f5799f6f1dcf910e7b4aa3ce4de133b1f8a63c044792a4e9', 'Analyst');
+    ('admin',    'cfb0ef6a160ecf7cd32b7073cbd397d6:4bde4cbe74749c646ff17a8d0985fb173039ae35ff3e1f7a9c5f4d3783c831f8', 'Admin'),
+    ('officer1', 'c98fa385f92cc05723be2f8a43f4e911:391371c3816d46b57a7cfe4f77ad3001e662041f19fd02ad4a078f41eb791098', 'Officer'),
+    ('finance1', '612b025d6cd9f69d8345e5d162a19d2b:3c805c185170480474da00a5a607bdd7c6d763a7788b1ba437eef1c71459a635', 'Finance'),
+    ('analyst1', '84b26043780301f82795caac4f820f44:a5df606b3b1d9011e9b69f91ed8a039be2356ca63296abed75274df45d55b69b', 'Analyst');
 
 SELECT 'Seed data inserted successfully.' AS status;
