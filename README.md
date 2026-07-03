@@ -369,10 +369,9 @@ EXPLAIN ANALYZE SELECT * FROM Fine WHERE Status = 'Unpaid' AND DueDate < CURRENT
 
 ---
 
-## TEAM
+## AUTHOR
 
 - Harshit Goyal
-- Darsh Valand
 
 ---
 
